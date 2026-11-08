@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 Simplifying Radical Expressions - رياضيات 10 عام | Mr. Mohammed Hesham</title>
+<meta name="description" content="امتحان تفاعلي عن تبسيط التعابير الجذرية - رياضيات 10 عام">
+<meta name="author" content="Mr. Mohammed Hesham">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); }
+body.en-mode { font-family: 'Inter', sans-serif; direction: ltr; }
+.arabic-math { font-family: 'Amiri', 'Cairo', serif; }
+.correct { background-color: #dcfce7 !important; border-color: #16a34a !important; }
+.incorrect { background-color: #fee2e2 !important; border-color: #dc2626 !important; }
+.timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.7; } }
+@media print { .no-print { display: none !important; } }
+.success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+.grade-excellent { background: #dcfce7; color: #166534; }
+.grade-good { background: #fef3c7; color: #92400e; }
+.grade-pass { background: #dbeafe; color: #1e40af; }
+.grade-fail { background: #fee2e2; color: #991b1b; }
+.lang-switch { position: fixed; top: 16px; left: 16px; z-index: 100; background: white; padding: 6px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; gap: 4px; border: 2px solid #10b981; }
+body.en-mode .lang-switch { left: auto; right: 16px; }
+.lang-btn { padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.3s; border: none; font-size: 0.875rem; background: transparent; color: #6b7280; }
+.lang-btn.active { background: #10b981; color: white; box-shadow: 0 2px 6px rgba(16,185,129,0.4); }
+.shuffle-badge { display: inline-block; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 8px; }
+body.en-mode .shuffle-badge { margin-right: 0; margin-left: 8px; }
+.math-display { display: inline-block; direction: ltr; font-family: 'Amiri', serif; font-size: 1.1em; padding: 2px 6px; background: #ecfdf5; border-radius: 4px; margin: 2px; color: #065f46; font-weight: 600; }
+.save-indicator { position: fixed; bottom: 20px; left: 20px; z-index: 200; background: #10b981; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+body.en-mode .save-indicator { left: auto; right: 20px; }
+.save-indicator.show { opacity: 1; }
+.formula-box { background: #ecfdf5; border: 2px solid #10b981; border-radius: 8px; padding: 12px; margin: 10px 0; font-family: 'Amiri', serif; direction: ltr; text-align: center; }
+.svg-graph { display: block; margin: 12px auto; background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 8px; max-width: 100%; }
+.graph-container { text-align: center; margin: 10px 0; }
+.module-badge { display: inline-block; padding: 4px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; }
+.module-1 { background: #ecfdf5; color: #065f46; }
+.module-2 { background: #dbeafe; color: #1e40af; }
+.module-3 { background: #fce7f3; color: #9f1239; }
+.module-4 { background: #fef3c7; color: #92400e; }
+.module-5 { background: #ede9fe; color: #5b21b6; }
+.module-6 { background: #fee2e2; color: #991b1b; }
+</style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+<div class="lang-switch no-print">
+<button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">عربي</button>
+<button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+</div>
+
+<div id="saveIndicator" class="save-indicator">💾 <span data-ar="تم الحفظ" data-en="Saved">تم الحفظ</span></div>
+
+<div id="timer-container" class="max-w-5xl mx-auto mb-4 text-center no-print">
+<div class="bg-white p-4 rounded-2xl shadow-lg inline-block border-2 border-green-100">
+<span class="text-gray-600 ml-2">⏰ <span data-ar="الوقت المتبقي:" data-en="Time Left:">الوقت المتبقي:</span></span>
+<span id="timer" class="text-2xl font-bold text-green-700 font-mono">60:00</span>
+<span class="shuffle-badge">📐 <span data-ar="تبسيط التعابير الجذرية" data-en="Simplifying Radicals">تبسيط التعابير الجذرية</span> - 30 <span data-ar="سؤال" data-en="Questions">سؤال</span></span>
+</div>
+</div>
+
+<div class="max-w-5xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+<button onclick="toggleAnswers()" class="bg-green-700 hover:bg-green-800 text-white px-5 py-2 rounded-xl font-medium transition shadow">👀 <span data-ar="إظهار/إخفاء الإجابات" data-en="Show/Hide Answers">إظهار/إخفاء الإجابات</span></button>
+<button onclick="window.print()" class="bg-gray-700 hover:bg-gray-900 text-white px-5 py-2 rounded-xl font-medium transition shadow">🖨️ <span data-ar="طباعة" data-en="Print">طباعة</span></button>
+<button onclick="reshuffleExam()" class="bg-gradient-to-r from-green-700 to-emerald-600 hover:from-green-800 hover:to-emerald-700 text-white px-5 py-2 rounded-xl font-medium transition shadow">🔄 <span data-ar="أسئلة جديدة" data-en="New Questions">أسئلة جديدة</span></button>
+<button onclick="clearProgress()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-medium transition shadow">🗑️ <span data-ar="مسح التقدم" data-en="Clear Progress">مسح التقدم</span></button>
+</div>
+
+<header class="max-w-5xl mx-auto bg-white p-8 rounded-3xl shadow-2xl mb-8 border-4 border-green-500">
+<div class="text-center">
+<div class="inline-block bg-green-700 text-white px-6 py-2 rounded-full text-sm font-bold mb-4">MATH GRADE 10 GENERAL</div>
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">📐 <span data-ar="تبسيط التعابير الجذرية" data-en="Simplifying Radical Expressions">تبسيط التعابير الجذرية</span></h1>
+<h2 class="text-xl text-green-700 font-semibold mb-2"><span data-ar="رياضيات صف 10 عام - الفصل 5-2" data-en="Grade 10 General Math - Chapter 5-2">رياضيات صف 10 عام - الفصل 5-2</span></h2>
+<p class="text-gray-600 mb-4"><span data-ar="Simplifying Radicals, Multiplying Radicals & Rationalizing Denominators" data-en="Simplifying Radicals, Multiplying Radicals & Rationalizing Denominators">تبسيط الجذور، ضرب الجذور وإنطاق المقامات</span></p>
+<p class="text-sm text-green-600 font-semibold">💾 <span data-ar="يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 6 أقسام" data-en="Your progress is auto-saved - 30 questions in 6 sections">يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 6 أقسام</span></p>
+</div>
+<div class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+<span>📅 <span data-ar="التاريخ:" data-en="Date:">التاريخ:</span> <input type="text" id="examDate" class="border-b-2 border-green-300 bg-transparent w-32 text-center"></span>
+<span>😊 <span data-ar="الاسم:" data-en="Name:">الاسم:</span> <input type="text" id="studentName" class="border-b-2 border-green-300 bg-transparent w-40 text-center" data-placeholder-ar="اكتب اسمك" data-placeholder-en="Your name" placeholder="اكتب اسمك"></span>
+<span>🏫 <span data-ar="الشعبة:" data-en="Class:">الشعبة:</span> <input type="text" id="studentClass" class="border-b-2 border-green-300 bg-transparent w-32 text-center" data-placeholder-ar="الشعبة" data-placeholder-en="Class" placeholder="الشعبة"></span>
+<span>⏰ <span data-ar="المدة: 60 دقيقة" data-en="Duration: 60 min">المدة: 60 دقيقة</span></span>
+<span>📊 <span data-ar="المجموع: 100 درجة" data-en="Total: 100 points">المجموع: 100 درجة</span></span>
+</div>
+</header>
+
+<div class="max-w-5xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-lg border-2 border-green-200 no-print">
+<h3 class="font-bold text-lg mb-3 text-green-800 text-center">📐 <span data-ar="القوانين الأساسية" data-en="Key Laws">القوانين الأساسية</span></h3>
+<div class="grid md:grid-cols-3 gap-3 text-sm">
+<div class="formula-box">
+<strong><span data-ar="تبسيط الجذور:" data-en="Simplifying Radicals:">تبسيط الجذور:</span></strong><br>
+<span class="math-display">√(a²·b) = a√b</span><br>
+<span data-ar="أخرج المربع الكامل" data-en="Factor out perfect squares">أخرج المربع الكامل</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="ضرب الجذور:" data-en="Multiplying Radicals:">ضرب الجذور:</span></strong><br>
+<span class="math-display">√a · √b = √(ab)</span><br>
+<span data-ar="اضرب ما تحت الجذر" data-en="Multiply under the radical">اضرب ما تحت الجذر</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="إنطاق المقام:" data-en="Rationalizing:">إنطاق المقام:</span></strong><br>
+<span class="math-display">√a/√b = √a·√b/b</span><br>
+<span data-ar="اضرب البسط والمقام بـ √b" data-en="Multiply num & den by √b">اضرب البسط والمقام بـ √b</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="جذور المتغيرات:" data-en="Variable Radicals:">جذور المتغيرات:</span></strong><br>
+<span class="math-display">√(x²) = |x|</span><br>
+<span data-ar="√(x⁴) = x², √(x⁶) = |x³|" data-en="√(x⁴) = x², √(x⁶) = |x³|">√(x⁴) = x², √(x⁶) = |x³|</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="المربعات الكاملة:" data-en="Perfect Squares:">المربعات الكاملة:</span></strong><br>
+<span class="math-display">1, 4, 9, 16, 25, 36, 49, 64, 81, 100</span><br>
+<span data-ar="121, 144, 169, 196, 225, ..." data-en="121, 144, 169, 196, 225, ...">121, 144, 169, 196, 225, ...</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="قسمة الجذور:" data-en="Dividing Radicals:">قسمة الجذور:</span></strong><br>
+<span class="math-display">√a/√b = √(a/b)</span><br>
+<span data-ar="اقسم ما تحت الجذر" data-en="Divide under the radical">اقسم ما تحت الجذر</span>
+</div>
+</div>
+</div>
+
+<main class="max-w-5xl mx-auto space-y-8" id="exam-content"></main>
+
+<div class="text-center no-print pb-8 mt-8">
+<button onclick="gradeExam()" class="bg-gradient-to-r from-green-700 to-emerald-600 hover:from-green-800 hover:to-emerald-700 text-white text-lg px-12 py-4 rounded-2xl font-bold shadow-xl transition transform hover:scale-105">🎯 <span data-ar="صحح إجاباتي!" data-en="Grade My Exam!">صحح إجاباتي!</span></button>
+</div>
+
+<div id="results-panel" class="max-w-5xl mx-auto mt-8 bg-white p-8 rounded-3xl shadow-2xl border-4 border-green-500 hidden no-print">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">🏆 <span data-ar="نتيجتك يا بطل!" data-en="Your Result, Champion!">نتيجتك يا بطل!</span> 🏆</h2>
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+<div class="bg-green-50 p-4 rounded-xl text-center"><p>😊 <span data-ar="الاسم" data-en="Name">الاسم</span></p><p id="res-name" class="font-bold text-xl text-green-700">-</p></div>
+<div class="bg-emerald-50 p-4 rounded-xl text-center"><p>📅 <span data-ar="التاريخ" data-en="Date">التاريخ</span></p><p id="res-date" class="font-bold text-xl text-emerald-700">-</p></div>
+<div class="bg-green-50 p-4 rounded-xl text-center"><p>🌟 <span data-ar="المجموع" data-en="Total">المجموع</span></p><p id="res-total" class="font-bold text-3xl text-green-700">0 / 100</p></div>
+</div>
+<div class="text-center mb-6">
+<span id="success-badge" class="success-badge grade-excellent">-</span>
+<p id="success-percent" class="text-4xl font-bold text-green-700 mt-2">0%</p>
+<p class="text-sm text-gray-500"><span data-ar="نسبة النجاح" data-en="Success Rate">نسبة النجاح</span></p>
+</div>
+<div class="bg-gray-50 p-6 rounded-xl mb-6">
+<h3 class="font-bold text-lg mb-4 text-gray-800">📊 <span data-ar="أداؤك في كل قسم:" data-en="Your Performance by Section:">أداؤك في كل قسم:</span></h3>
+<div class="space-y-3" id="sections-performance"></div>
+</div>
+<div class="text-center">
+<button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-green-700 to-emerald-600 text-white text-lg px-8 py-3 rounded-2xl font-bold shadow-xl transition">📧 <span data-ar="أرسل النتيجة للمعلم" data-en="Send Result to Teacher">أرسل النتيجة للمعلم</span></button>
+<p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+</div>
+</div>
+
+<footer class="max-w-5xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+© Simplifying Radicals - Grade 10 General | Mr. Mohammed Hesham 📐
+</footer>
+
+<script>
+const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+const SERVICE_ID = "service_w15m64i";
+const TEMPLATE_ID = "template_5b0u2tq";
+const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+emailjs.init(PUBLIC_KEY);
+
+const STORAGE_KEY = 'simplifying_radicals_grade10_v1';
+const TOTAL_TIME = 3600;
+const TOTAL_QUESTIONS = 30;
+const TOTAL_SECTIONS = 6;
+const QUESTIONS_PER_SECTION = 5;
+
+let currentSeed = null;
+let answersVisible = false;
+let saveIndicatorTimeout = null;
+let currentLang = 'ar';
+let timeRemaining = TOTAL_TIME;
+let timerInterval;
+let examData;
+let correctAnswersMap = {};
+let rng = null;
+
+function mulberry32(a) {
+    return function() {
+        var t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+}
+
+function showSaveIndicator() {
+    const indicator = document.getElementById('saveIndicator');
+    indicator.classList.add('show');
+    if (saveIndicatorTimeout) clearTimeout(saveIndicatorTimeout);
+    saveIndicatorTimeout = setTimeout(() => indicator.classList.remove('show'), 1500);
+}
+
+function saveState(showIndicator = true) {
+    try {
+        const state = {
+            seed: currentSeed, lang: currentLang,
+            studentName: document.getElementById('studentName').value,
+            studentClass: document.getElementById('studentClass').value,
+            examDate: document.getElementById('examDate').value,
+            answers: getSelectedAnswers(),
+            timeRemaining: timeRemaining,
+            answersVisible: answersVisible, savedAt: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (showIndicator) showSaveIndicator();
+    } catch (e) { console.error('Save error:', e); }
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+    } catch (e) { return null; }
+}
+
+function getSelectedAnswers() {
+    const answers = {};
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const selected = document.querySelector('input[name="q'+i+'"]:checked');
+        if (selected) answers[i] = selected.value;
+    }
+    return answers;
+}
+
+function restoreAnswers(answers) {
+    if (!answers) return;
+    for (const [idx, val] of Object.entries(answers)) {
+        const radio = document.querySelector('input[name="q'+idx+'"][value="'+val+'"]');
+        if (radio) radio.checked = true;
+    }
+}
+
+function clearProgress() {
+    const msg = currentLang === 'ar' ? '⚠️ هل أنت متأكد من مسح كل التقدم؟' : '⚠️ Clear all progress?';
+    if (confirm(msg)) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+}
+
+function setupAnswerListeners() {
+    document.getElementById('exam-content').addEventListener('change', (e) => {
+        if (e.target.type === 'radio') saveState();
+    });
+}
+
+function setupInputListeners() {
+    ['studentName', 'studentClass', 'examDate'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => saveState(false));
+            el.addEventListener('blur', () => saveState());
+        }
+    });
+}
+
+// ==================== SVG DIAGRAMS ====================
+const svgGraphs = {
+    perfect_squares_table: `<svg class="svg-graph" width="500" height="380" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="370" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">📊 جدول المربعات الكاملة - Perfect Squares</text>
+        <!-- Column 1 -->
+        <rect x="20" y="45" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="90" y="68" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√1 = 1</text>
+        <rect x="20" y="80" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="90" y="103" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√4 = 2</text>
+        <rect x="20" y="115" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="90" y="138" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√9 = 3</text>
+        <rect x="20" y="150" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="90" y="173" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√16 = 4</text>
+        <rect x="20" y="185" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="90" y="208" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√25 = 5</text>
+        <rect x="20" y="220" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="90" y="243" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√36 = 6</text>
+        <rect x="20" y="255" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="90" y="278" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√49 = 7</text>
+        <!-- Column 2 -->
+        <rect x="170" y="45" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="240" y="68" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√64 = 8</text>
+        <rect x="170" y="80" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="240" y="103" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√81 = 9</text>
+        <rect x="170" y="115" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="240" y="138" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√100 = 10</text>
+        <rect x="170" y="150" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="240" y="173" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√121 = 11</text>
+        <rect x="170" y="185" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="240" y="208" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√144 = 12</text>
+        <rect x="170" y="220" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="240" y="243" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√169 = 13</text>
+        <rect x="170" y="255" width="140" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="240" y="278" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">√196 = 14</text>
+        <!-- Column 3 -->
+        <rect x="320" y="45" width="160" height="35" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="400" y="68" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">√225 = 15</text>
+        <rect x="320" y="80" width="160" height="35" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="400" y="103" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">√256 = 16</text>
+        <rect x="320" y="115" width="160"" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="400" y="138" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">√289 = 17</text>
+        <rect x="320" y="150" width="160" height="35" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="400" y="173" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">√324 = 18</text>
+        <rect x="320" y="185" width="160" height="35" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="400" y="208" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">√361 = 19</text>
+        <rect x="320" y="220" width="160" height="35" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="400" y="243" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">√400 = 20</text>
+        <!-- Tips -->
+        <rect x="20" y="300" width="460" height="65" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="320" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">💡 Tips for Simplifying Radicals:</text>
+        <text x="250" y="338" text-anchor="middle" font-size="10" fill="#92400e">1. Find the largest perfect square factor</text>
+        <text x="250" y="353" text-anchor="middle" font-size="10" fill="#92400e">2. √(a²·b) = a√b (pull out perfect squares)</text>
+        <text x="250" y="365" text-anchor="middle" font-size="9" fill="#92400e">3. For variables: √(x²ⁿ) = xⁿ (even powers come out)</text>
+    </svg>`,
+    
+    simplifying_example: `<svg class="svg-graph" width="500" height="340" viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="330" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#1e40af" font-weight="bold">📝 مثال: تبسيط √72</text>
+        <!-- Step 1 -->
+        <rect x="20" y="45" width="460" height="60" rx="6" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="12" fill="#1e40af" font-weight="bold">Step 1: Find perfect square factors of 72</text>
+        <text x="250" y="85" text-anchor="middle" font-size="11" fill="#1e40af">72 = 36 × 2 (36 is the largest perfect square)</text>
+        <text x="250" y="100" text-anchor="middle" font-size="10" fill="#1e40af">أو: 72 = 4 × 18 = 9 × 8 = 36 × 2</text>
+        <!-- Step 2 -->
+        <rect x="20" y="115" width="460" height="60" rx="6" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="135" text-anchor="middle" font-size="12" fill="#1e40af" font-weight="bold">Step 2: Apply √(a·b) = √a · √b</text>
+        <text x="250" y="155" text-anchor="middle" font-size="12" fill="#1e40af" font-family="'Amiri', serif">√72 = √(36 × 2) = √36 · √2</text>
+        <text x="250" y="170" text-anchor="middle" font-size="11" fill="#1e40af">Since √36 = 6</text>
+        <!-- Step 3 -->
+        <rect x="20" y="185" width="460" height="60" rx="6" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="205" text-anchor="middle" font-size="12" fill="#1e40af" font-weight="bold">Step 3: Simplify</text>
+        <text x="250" y="225" text-anchor="middle" font-size="13" fill="#1e40af" font-family="'Amiri', serif" font-weight="bold">√72 = 6√2</text>
+        <!-- Final answer box -->
+        <rect x="20" y="255" width="460" height="65" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="275" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">✅ Final Answer: 6√2</text>
+        <text x="250" y="293" text-anchor="middle" font-size="10" fill="#92400e">Check: (6√2)² = 36 × 2 = 72 ✓</text>
+        <text x="250" y="310" text-anchor="middle" font-size="9" fill="#92400e">Note: 6√2 is simpler than √72 because 2 has no perfect square factors</text>
+    </svg>`,
+    
+    variable_radicals: `<svg class="svg-graph" width="500" height="360" viewBox="0 0 500 360" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="350" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#9f1239" font-weight="bold">📝 جذور المتغيرات - Variable Radicals</text>
+        <!-- Rule -->
+        <rect x="20" y="45" width="460" height="50" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="250" y="70" text-anchor="middle" font-size="12" fill="#9f1239" font-family="'Amiri', serif" font-weight="bold">√(x²ⁿ) = xⁿ (for even powers)</text>
+        <text x="250" y="88" text-anchor="middle" font-size="10" fill="#9f1239">Even powers come out of the radical completely</text>
+        <!-- Examples -->
+        <rect x="20" y="105" width="220" height="110" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="130" y="125" text-anchor="middle" font-size="11" fill="#9f1239" font-weight="bold">Example 1: √(g⁴)</text>
+        <text x="130" y="145" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">= √((g²)²)</text>
+        <text x="130" y="165" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">= g²</text>
+        <text x="130" y="185" text-anchor="middle" font-size="10" fill="#9f1239">Even power → comes out</text>
+        <text x="130" y="203" text-anchor="middle" font-size="10" fill="#9f1239">لا يحتاج |x| لأن الأس زوجي</text>
+        <rect x="260" y="105" width="220" height="110" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="370" y="125" text-anchor="middle" font-size="11" fill="#9f1239" font-weight="bold">Example 2: √(d⁶)</text>
+        <text x="370" y="145" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">= √((d³)²)</text>
+        <text x="370" y="165" text-anchor="middle" font-size="11" fill="#9f1239" font-family="'Amiri', serif">= |d³|</text>
+        <text x="370" y="185" text-anchor="middle" font-size="10" fill="#9f1239">Even power → comes out</text>
+        <text x="370" y="203" text-anchor="middle" font-size="10" fill="#9f1239">يحتاج | | لأن d³ قد يكون سالباً</text>
+        <!-- Complex example -->
+        <rect x="20" y="225" width="460" height="110" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="245" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Complex Example: 4√(66g²h⁴)</text>
+        <text x="250" y="265" text-anchor="middle" font-size="11" fill="#92400e" font-family="'Amiri', serif">= 4 · √66 · √(g²) · √(h⁴)</text>
+        <text x="250" y="285" text-anchor="middle" font-size="11" fill="#92400e" font-family="'Amiri', serif">= 4 · √66 · |g| · h²</text>
+        <text x="250" y="305" text-anchor="middle" font-size="11" fill="#92400e" font-family="'Amiri', serif" font-weight="bold">= 4|g|h²√66</text>
+        <text x="250" y="325" text-anchor="middle" font-size="10" fill="#92400e">Note: g² → |g| (odd power after sqrt), h⁴ → h² (even power stays positive)</text>
+    </svg>`,
+    
+    rationalizing_denominator: `<svg class="svg-graph" width="500" height="380" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="370" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">📝 إنطاق المقام - Rationalizing Denominators</text>
+        <!-- Simple case -->
+        <rect x="20" y="45" width="460" height="70" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="11" fill="#5b21b6" font-weight="bold">Case 1: Simple radical in denominator</text>
+        <text x="250" y="85" text-anchor="middle" font-size="12" fill="#5b21b6" font-family="'Amiri', serif">√a/√b = (√a · √b)/(√b · √b) = √(ab)/b</text>
+        <text x="250" y="105" text-anchor="middle" font-size="10" fill="#5b21b6">Example: 7/√3 = 7√3/3</text>
+        <!-- Binomial case -->
+        <rect x="20" y="125" width="460" height="90" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="250" y="145" text-anchor="middle" font-size="11" fill="#5b21b6" font-weight="bold">Case 2: Binomial with radical (Conjugate)</text>
+        <text x="250" y="165" text-anchor="middle" font-size="11" fill="#5b21b6" font-family="'Amiri', serif">Multiply by conjugate: (a+√b)(a-√b) = a² - b</text>
+        <text x="250" y="185" text-anchor="middle" font-size="10" fill="#5b21b6">Example: 7/(5+√3) × (5-√3)/(5-√3)</text>
+        <text x="250" y="203" text-anchor="middle" font-size="10" fill="#5b21b6">= 7(5-√3)/(25-3) = (35-7√3)/22</text>
+        <!-- Example from Q43 -->
+        <rect x="20" y="225" width="460" height="130" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="245" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Example: 7/(5+√3)</text>
+        <text x="250" y="265" text-anchor="middle" font-size="10" fill="#92400e">Step 1: Multiply by conjugate (5-√3)/(5-√3)</text>
+        <text x="250" y="283" text-anchor="middle" font-size="10" fill="#92400e">Step 2: Numerator: 7(5-√3) = 35 - 7√3</text>
+        <text x="250" y="300" text-anchor="middle" font-size="10" fill="#92400e">Step 3: Denominator: (5+√3)(5-√3) = 25 - 3 = 22</text>
+        <text x="250" y="320" text-anchor="middle" font-size="11" fill="#92400e" font-family="'Amiri', serif" font-weight="bold">Result: (35 - 7√3)/22</text>
+        <text x="250" y="340" text-anchor="middle" font-size="9" fill="#92400e">Note: Conjugate of (a+√b) is (a-√b), and vice versa</text>
+    </svg>`,
+    
+    multiplying_radicals: `<svg class="svg-graph" width="500" height="340" viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="330" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#92400e" font-weight="bold">📝 ضرب التعابير الجذرية - Multiplying Radicals</text>
+        <!-- Rule -->
+        <rect x="20" y="45" width="460" height="50" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="70" text-anchor="middle" font-size="12" fill="#92400e" font-family="'Amiri', serif" font-weight="bold">a√b · c√d = (a·c)√(b·d)</text>
+        <!-- Example 1 -->
+        <rect x="20" y="105" width="460" height="70" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="125" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Example 1: 3√10 · 4√10</text>
+        <text x="250" y="145" text-anchor="middle" font-size="11" fill="#92400e" font-family="'Amiri', serif">= (3·4)√(10·10) = 12√100 = 12·10 = 120</text>
+        <text x="250" y="165" text-anchor="middle" font-size="10" fill="#92400e">Note: √100 = 10 (perfect square!)</text>
+        <!-- Example 2 -->
+        <rect x="20" y="185" width="460" height="70" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="205" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Example 2: 4√2 · 5√8</text>
+        <text x="250" y="225" text-anchor="middle" font-size="11" fill="#92400e" font-family="'Amiri', serif">= (4·5)√(2·8) = 20√16 = 20·4 = 80</text>
+        <text x="250" y="245" text-anchor="middle" font-size="10" fill="#92400e">Note: √16 = 4 (perfect square!)</text>
+        <!-- Example 3 -->
+        <rect x="20" y="265" width="460" height="60" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="285" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Example 3: √3 · √18</text>
+        <text x="250" y="305" text-anchor="middle" font-size="11" fill="#92400e" font-family="'Amiri', serif">= √(3·18) = √54 = √(9·6) = 3√6</text>
+        <text x="250" y="320" text-anchor="middle" font-size="10" fill="#92400e">Note: √54 = √(9·6) = 3√6 (9 is perfect square)</text>
+    </svg>`,
+    
+    radical_rules_summary: `<svg class="svg-graph" width="500" height="400" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="390" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#991b1b" font-weight="bold">📋 ملخص قواعد الجذور - Radical Rules Summary</text>
+        <!-- Rule 1 -->
+        <rect x="20" y="45" width="460" height="50" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">1. Product Rule: √a · √b = √(ab)</text>
+        <text x="250" y="83" text-anchor="middle" font-size="10" fill="#991b1b">Example: √3 · √12 = √36 = 6</text>
+        <!-- Rule 2 -->
+        <rect x="20" y="105" width="460" height="50" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="125" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">2. Quotient Rule: √a/√b = √(a/b)</text>
+        <text x="250" y="143" text-anchor="middle" font-size="10" fill="#991b1b">Example: √50/√2 = √25 = 5</text>
+        <!-- Rule 3 -->
+        <rect x="20" y="165" width="460" height="50" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="185" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">3. Power Rule: √(x²ⁿ) = xⁿ (for x ≥ 0)</text>
+        <text x="250" y="203" text-anchor="middle" font-size="10" fill="#991b1b">Example: √(x⁶) = x³, √(y⁴) = y²</text>
+        <!-- Rule 4 -->
+        <rect x="20" y="225" width="460" height="50" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="245" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">4. Simplifying: √(a²·b) = a√b</text>
+        <text x="250" y="263" text-anchor="middle" font-size="10" fill="#991b1b">Example: √72 = √(36·2) = 6√2</text>
+        <!-- Rule 5 -->
+        <rect x="20" y="285" width="460" height="50" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="305" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">5. Rationalizing: Multiply by conjugate</text>
+        <text x="250" y="323" text-anchor="middle" font-size="10" fill="#991b1b">Example: 1/√2 = √2/2</text>
+        <!-- Important note -->
+        <rect x="20" y="345" width="460" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="365" text-anchor="middle" font-size="10" fill="#92400e" font-weight="bold">⚠️ Remember: √(x²) = |x|, not just x (for all real x)</text>
+    </svg>`
+};
+
+// ==================== EXAM DATA - 30 QUESTIONS ====================
+const originalExamData = {
+    sections: [
+        {
+            id: 'sec1',
+            title: { ar: '🔹 القسم 1: تبسيط الجذور البسيطة (Q1-Q5)', en: '🔹 Section 1: Simplifying Simple Radicals (Q1-Q5)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 1 (مثل السؤال 1):</strong> بسّط <span class="math-display">√24</span>', en: '<strong>Question 1 (like Q1):</strong> Simplify <span class="math-display">√24</span>' },
+                    svg: svgGraphs.simplifying_example,
+                    options: [
+                        { ar: '<span class="math-display">2√6</span>', en: '<span class="math-display">2√6</span>' },
+                        { ar: '<span class="math-display">4√6</span>', en: '<span class="math-display">4√6</span>' },
+                        { ar: '<span class="math-display">6√2</span>', en: '<span class="math-display">6√2</span>' },
+                        { ar: '<span class="math-display">√24</span> (لا يمكن تبسيطه)', en: '<span class="math-display">√24</span> (cannot simplify)' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '24 = 4 × 6، و 4 مربع كامل. √24 = √(4·6) = √4·√6 = 2√6', en: '24 = 4 × 6, 4 is perfect square. √24 = √4·√6 = 2√6' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 2 (مثل السؤال 2):</strong> بسّط <span class="math-display">3√16</span>', en: '<strong>Question 2 (like Q2):</strong> Simplify <span class="math-display">3√16</span>' },
+                    options: [
+                        { ar: '<span class="math-display">12</span>', en: '<span class="math-display">12</span>' },
+                        { ar: '<span class="math-display">3·4 = 12</span>', en: '<span class="math-display">3·4 = 12</span>' },
+                        { ar: '<span class="math-display">48</span>', en: '<span class="math-display">48</span>' },
+                        { ar: '<span class="math-display">3√16</span> (لا يمكن تبسيطه)', en: '<span class="math-display">3√16</span> (cannot simplify)' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√16 = 4 (مربع كامل). إذن 3√16 = 3·4 = 12', en: '√16 = 4 (perfect square). So 3√16 = 3·4 = 12' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 3 (مثل السؤال 19):</strong> بسّط <span class="math-display">√72</span>', en: '<strong>Question 3 (like Q19):</strong> Simplify <span class="math-display">√72</span>' },
+                    options: [
+                        { ar: '<span class="math-display">6√2</span>', en: '<span class="math-display">6√2</span>' },
+                        { ar: '<span class="math-display">2√18</span>', en: '<span class="math-display">2√18</span>' },
+                        { ar: '<span class="math-display">3√8</span>', en: '<span class="math-display">3√8</span>' },
+                        { ar: '<span class="math-display">36√2</span>', en: '<span class="math-display">36√2</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '72 = 36 × 2، و 36 أكبر مربع كامل. √72 = √36·√2 = 6√2', en: '72 = 36 × 2, 36 is largest perfect square. √72 = 6√2' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 4:</strong> بسّط <span class="math-display">√50</span>', en: '<strong>Question 4:</strong> Simplify <span class="math-display">√50</span>' },
+                    options: [
+                        { ar: '<span class="math-display">5√2</span>', en: '<span class="math-display">5√2</span>' },
+                        { ar: '<span class="math-display">2√25</span>', en: '<span class="math-display">2√25</span>' },
+                        { ar: '<span class="math-display">25√2</span>', en: '<span class="math-display">25√2</span>' },
+                        { ar: '<span class="math-display">√50</span> (لا يمكن تبسيطه)', en: '<span class="math-display">√50</span> (cannot simplify)' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '50 = 25 × 2، و 25 مربع كامل. √50 = √25·√2 = 5√2', en: '50 = 25 × 2, 25 is perfect square. √50 = 5√2' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 5:</strong> بسّط <span class="math-display">√98</span>', en: '<strong>Question 5:</strong> Simplify <span class="math-display">√98</span>' },
+                    options: [
+                        { ar: '<span class="math-display">7√2</span>', en: '<span class="math-display">7√2</span>' },
+                        { ar: '<span class="math-display">2√49</span>', en: '<span class="math-display">2√49</span>' },
+                        { ar: '<span class="math-display">49√2</span>', en: '<span class="math-display">49√2</span>' },
+                        { ar: '<span class="math-display">√98</span> (لا يمكن تبسيطه)', en: '<span class="math-display">√98</span> (cannot simplify)' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '98 = 49 × 2، و 49 مربع كامل. √98 = √49·√2 = 7√2', en: '98 = 49 × 2, 49 is perfect square. √98 = 7√2' }
+                }
+            ]
+        },
+        {
+            id: 'sec2',
+            title: { ar: '🔹 القسم 2: ضرب الجذور (Q6-Q10)', en: '🔹 Section 2: Multiplying Radicals (Q6-Q10)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 6 (مثل السؤال 5):</strong> بسّط <span class="math-display">√3 · √18</span>', en: '<strong>Question 6 (like Q5):</strong> Simplify <span class="math-display">√3 · √18</span>' },
+                    svg: svgGraphs.multiplying_radicals,
+                    options: [
+                        { ar: '<span class="math-display">3√6</span>', en: '<span class="math-display">3√6</span>' },
+                        { ar: '<span class="math-display">√54</span>', en: '<span class="math-display">√54</span>' },
+                        { ar: '<span class="math-display">6√3</span>', en: '<span class="math-display">6√3</span>' },
+                        { ar: '<span class="math-display">9√2</span>', en: '<span class="math-display">9√2</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√3 · √18 = √(3·18) = √54 = √(9·6) = 3√6', en: '√3 · √18 = √54 = √(9·6) = 3√6' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 7 (مثل السؤال 6):</strong> بسّط <span class="math-display">3√10 · 4√10</span>', en: '<strong>Question 7 (like Q6):</strong> Simplify <span class="math-display">3√10 · 4√10</span>' },
+                    options: [
+                        { ar: '<span class="math-display">120</span>', en: '<span class="math-display">120</span>' },
+                        { ar: '<span class="math-display">12√10</span>', en: '<span class="math-display">12√10</span>' },
+                        { ar: '<span class="math-display">12√100</span>', en: '<span class="math-display">12√100</span>' },
+                        { ar: '<span class="math-display">7√10</span>', en: '<span class="math-display">7√10</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '3√10 · 4√10 = (3·4)·(√10·√10) = 12·10 = 120', en: '3√10 · 4√10 = 12·(√10)² = 12·10 = 120' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 8 (مثل السؤال 26):</strong> بسّط <span class="math-display">4√2 · 5√8</span>', en: '<strong>Question 8 (like Q26):</strong> Simplify <span class="math-display">4√2 · 5√8</span>' },
+                    options: [
+                        { ar: '<span class="math-display">80</span>', en: '<span class="math-display">80</span>' },
+                        { ar: '<span class="math-display">20√16</span>', en: '<span class="math-display">20√16</span>' },
+                        { ar: '<span class="math-display">20√10</span>', en: '<span class="math-display">20√10</span>' },
+                        { ar: '<span class="math-display">9√10</span>', en: '<span class="math-display">9√10</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '4√2 · 5√8 = 20√(2·8) = 20√16 = 20·4 = 80', en: '4√2 · 5√8 = 20√16 = 20·4 = 80' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 9:</strong> بسّط <span class="math-display">2√5 · 3√5</span>', en: '<strong>Question 9:</strong> Simplify <span class="math-display">2√5 · 3√5</span>' },
+                    options: [
+                        { ar: '<span class="math-display">30</span>', en: '<span class="math-display">30</span>' },
+                        { ar: '<span class="math-display">6√5</span>', en: '<span class="math-display">6√5</span>' },
+                        { ar: '<span class="math-display">6√25</span>', en: '<span class="math-display">6√25</span>' },
+                        { ar: '<span class="math-display">5√6</span>', en: '<span class="math-display">5√6</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '2√5 · 3√5 = 6·(√5)² = 6·5 = 30', en: '2√5 · 3√5 = 6·5 = 30' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 10:</strong> بسّط <span class="math-display">√6 · √24</span>', en: '<strong>Question 10:</strong> Simplify <span class="math-display">√6 · √24</span>' },
+                    options: [
+                        { ar: '<span class="math-display">12</span>', en: '<span class="math-display">12</span>' },
+                        { ar: '<span class="math-display">√144</span>', en: '<span class="math-display">√144</span>' },
+                        { ar: '<span class="math-display">2√36</span>', en: '<span class="math-display">2√36</span>' },
+                        { ar: '<span class="math-display">6√4</span>', en: '<span class="math-display">6√4</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√6 · √24 = √(6·24) = √144 = 12', en: '√6 · √24 = √144 = 12' }
+                }
+            ]
+        },
+        {
+            id: 'sec3',
+            title: { ar: '🔹 القسم 3: جذور مع متغيرات (Q11-Q15)', en: '🔹 Section 3: Radicals with Variables (Q11-Q15)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 11 (مثل السؤال 27):</strong> بسّط <span class="math-display">3√(25t²)</span>', en: '<strong>Question 11 (like Q27):</strong> Simplify <span class="math-display">3√(25t²)</span>' },
+                    svg: svgGraphs.variable_radicals,
+                    options: [
+                        { ar: '<span class="math-display">15|t|</span>', en: '<span class="math-display">15|t|</span>' },
+                        { ar: '<span class="math-display">15t</span>', en: '<span class="math-display">15t</span>' },
+                        { ar: '<span class="math-display">75t²</span>', en: '<span class="math-display">75t²</span>' },
+                        { ar: '<span class="math-display">3·5t = 15t</span>', en: '<span class="math-display">3·5t = 15t</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '3√(25t²) = 3·√25·√(t²) = 3·5·|t| = 15|t|. نستخدم |t| لأن t قد يكون سالباً', en: '3√(25t²) = 3·5·|t| = 15|t|. Use |t| because t could be negative' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 12 (مثل السؤال 28):</strong> بسّط <span class="math-display">5√(81q⁵)</span>', en: '<strong>Question 12 (like Q28):</strong> Simplify <span class="math-display">5√(81q⁵)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">45q²√q</span>', en: '<span class="math-display">45q²√q</span>' },
+                        { ar: '<span class="math-display">45q²</span>', en: '<span class="math-display">45q²</span>' },
+                        { ar: '<span class="math-display">5·9q²√q = 45q²√q</span>', en: '<span class="math-display">5·9q²√q = 45q²√q</span>' },
+                        { ar: '<span class="math-display">405q⁵</span>', en: '<span class="math-display">405q⁵</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '5√(81q⁵) = 5·√81·√(q⁴)·√q = 5·9·q²·√q = 45q²√q', en: '5√(81q⁵) = 5·9·q²·√q = 45q²√q' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 13 (مثل السؤال 31):</strong> بسّط <span class="math-display">7√(63m³p)</span>', en: '<strong>Question 13 (like Q31):</strong> Simplify <span class="math-display">7√(63m³p)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">21m√(7mp)</span>', en: '<span class="math-display">21m√(7mp)</span>' },
+                        { ar: '<span class="math-display">7·3m√(7mp)</span>', en: '<span class="math-display">7·3m√(7mp)</span>' },
+                        { ar: '<span class="math-display">21m²√(7p)</span>', en: '<span class="math-display">21m²√(7p)</span>' },
+                        { ar: '<span class="math-display">441m³p</span>', en: '<span class="math-display">441m³p</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '7√(63m³p) = 7√(9·7·m²·m·p) = 7·3·m·√(7mp) = 21m√(7mp)', en: '7√(63m³p) = 7·3m·√(7mp) = 21m√(7mp)' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 14 (مثل السؤال 32):</strong> بسّط <span class="math-display">4√(66g²h⁴)</span>', en: '<strong>Question 14 (like Q32):</strong> Simplify <span class="math-display">4√(66g²h⁴)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">4|g|h²√66</span>', en: '<span class="math-display">4|g|h²√66</span>' },
+                        { ar: '<span class="math-display">4gh²√66</span>', en: '<span class="math-display">4gh²√66</span>' },
+                        { ar: '<span class="math-display">4g²h⁴√66</span>', en: '<span class="math-display">4g²h⁴√66</span>' },
+                        { ar: '<span class="math-display">264g²h⁴</span>', en: '<span class="math-display">264g²h⁴</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '4√(66g²h⁴) = 4·√66·√(g²)·√(h⁴) = 4·√66·|g|·h² = 4|g|h²√66', en: '4√(66g²h⁴) = 4·|g|·h²·√66 = 4|g|h²√66' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 15:</strong> بسّط <span class="math-display">√(x⁶y⁴)</span>', en: '<strong>Question 15:</strong> Simplify <span class="math-display">√(x⁶y⁴)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">|x³|y²</span>', en: '<span class="math-display">|x³|y²</span>' },
+                        { ar: '<span class="math-display">x³y²</span>', en: '<span class="math-display">x³y²</span>' },
+                        { ar: '<span class="math-display">x⁶y⁴</span>', en: '<span class="math-display">x⁶y⁴</span>' },
+                        { ar: '<span class="math-display">x²y³</span>', en: '<span class="math-display">x²y³</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√(x⁶y⁴) = √(x⁶)·√(y⁴) = |x³|·y². نستخدم |x³| لأن x³ قد يكون سالباً', en: '√(x⁶y⁴) = |x³|·y². Use |x³| because x³ could be negative' }
+                }
+            ]
+        },
+        {
+            id: 'sec4',
+            title: { ar: '🔹 القسم 4: ضرب جذور مع متغيرات (Q16-Q20)', en: '🔹 Section 4: Multiplying Radicals with Variables (Q16-Q20)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 16 (مثل السؤال 33):</strong> بسّط <span class="math-display">√(2ab²) · √(10a⁵b)</span>', en: '<strong>Question 16 (like Q33):</strong> Simplify <span class="math-display">√(2ab²) · √(10a⁵b)</span>' },
+                    svg: svgGraphs.multiplying_radicals,
+                    options: [
+                        { ar: '<span class="math-display">2|b|a³√(5ab)</span>', en: '<span class="math-display">2|b|a³√(5ab)</span>' },
+                        { ar: '<span class="math-display">2ba³√(5ab)</span>', en: '<span class="math-display">2ba³√(5ab)</span>' },
+                        { ar: '<span class="math-display">√(20a⁶b³)</span>', en: '<span class="math-display">√(20a⁶b³)</span>' },
+                        { ar: '<span class="math-display">20a⁶b³</span>', en: '<span class="math-display">20a⁶b³</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√(2ab²)·√(10a⁵b) = √(20a⁶b³) = √(4·5·a⁶·b²·b) = 2|b|a³√(5b)... تصحيح: = 2|b|a³√(5ab)', en: '√(2ab²)·√(10a⁵b) = √(20a⁶b³) = 2|b|a³√(5ab)' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 17 (مثل السؤال 34):</strong> بسّط <span class="math-display">√(4c³d³) · √(8c³d)</span>', en: '<strong>Question 17 (like Q34):</strong> Simplify <span class="math-display">√(4c³d³) · √(8c³d)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">4c³d²√2</span>', en: '<span class="math-display">4c³d²√2</span>' },
+                        { ar: '<span class="math-display">2c³d²√2</span>', en: '<span class="math-display">2c³d²√2</span>' },
+                        { ar: '<span class="math-display">√(32c⁶d⁴)</span>', en: '<span class="math-display">√(32c⁶d⁴)</span>' },
+                        { ar: '<span class="math-display">32c⁶d⁴</span>', en: '<span class="math-display">32c⁶d⁴</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√(4c³d³)·√(8c³d) = √(32c⁶d⁴) = √(16·2·c⁶·d⁴) = 4c³d²√2', en: '√(4c³d³)·√(8c³d) = √(32c⁶d⁴) = 4c³d²√2' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 18:</strong> بسّط <span class="math-display">√(3x²) · √(12x⁴)</span>', en: '<strong>Question 18:</strong> Simplify <span class="math-display">√(3x²) · √(12x⁴)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">6|x|·x² = 6|x³|</span>', en: '<span class="math-display">6|x|·x² = 6|x³|</span>' },
+                        { ar: '<span class="math-display">6x³</span>', en: '<span class="math-display">6x³</span>' },
+                        { ar: '<span class="math-display">√(36x⁶)</span>', en: '<span class="math-display">√(36x⁶)</span>' },
+                        { ar: '<span class="math-display">36x⁶</span>', en: '<span class="math-display">36x⁶</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√(3x²)·√(12x⁴) = √(36x⁶) = 6|x³|. نستخدم |x³| لأن x³ قد يكون سالباً', en: '√(3x²)·√(12x⁴) = √(36x⁶) = 6|x³|. Use |x³| because x³ could be negative' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 19:</strong> بسّط <span class="math-display">2√(5a) · 3√(10a³)</span>', en: '<strong>Question 19:</strong> Simplify <span class="math-display">2√(5a) · 3√(10a³)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">6a√(50a) = 30a√(2a)</span>', en: '<span class="math-display">6a√(50a) = 30a√(2a)</span>' },
+                        { ar: '<span class="math-display">6√(50a⁴)</span>', en: '<span class="math-display">6√(50a⁴)</span>' },
+                        { ar: '<span class="math-display">50a²</span>', en: '<span class="math-display">50a²</span>' },
+                        { ar: '<span class="math-display">6a²√50</span>', en: '<span class="math-display">6a²√50</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '2√(5a)·3√(10a³) = 6√(50a⁴) = 6·a²·√50 = 6a²·5√2 = 30a²√2... تصحيح: = 6a²√(50) = 30a²√2', en: '2√(5a)·3√(10a³) = 6√(50a⁴) = 6a²·5√2 = 30a²√2' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 20:</strong> بسّط <span class="math-display">√(7m²) · √(28m⁴)</span>', en: '<strong>Question 20:</strong> Simplify <span class="math-display">√(7m²) · √(28m⁴)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">14|m|·m² = 14|m³|</span>', en: '<span class="math-display">14|m|·m² = 14|m³|</span>' },
+                        { ar: '<span class="math-display">14m³</span>', en: '<span class="math-display">14m³</span>' },
+                        { ar: '<span class="math-display">√(196m⁶)</span>', en: '<span class="math-display">√(196m⁶)</span>' },
+                        { ar: '<span class="math-display">196m⁶</span>', en: '<span class="math-display">196m⁶</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√(7m²)·√(28m⁴) = √(196m⁶) = 14|m³|. نستخدم |m³| لأن m³ قد يكون سالباً', en: '√(7m²)·√(28m⁴) = √(196m⁶) = 14|m³|. Use |m³| because m³ could be negative' }
+                }
+            ]
+        },
+        {
+            id: 'sec5',
+            title: { ar: '🔹 القسم 5: إنطاق المقام (Q21-Q25)', en: '🔹 Section 5: Rationalizing Denominators (Q21-Q25)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 21 (مثل السؤال 40):</strong> بسّط <span class="math-display">√(h³)/√8</span>', en: '<strong>Question 21 (like Q40):</strong> Simplify <span class="math-display">√(h³)/√8</span>' },
+                    svg: svgGraphs.rationalizing_denominator,
+                    options: [
+                        { ar: '<span class="math-display">h√(2h)/4</span>', en: '<span class="math-display">h√(2h)/4</span>' },
+                        { ar: '<span class="math-display">h√h/2√2</span>', en: '<span class="math-display">h√h/2√2</span>' },
+                        { ar: '<span class="math-display">√(h³/8)</span>', en: '<span class="math-display">√(h³/8)</span>' },
+                        { ar: '<span class="math-display">h²/4</span>', en: '<span class="math-display">h²/4</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√(h³)/√8 = h√h/(2√2) = h√h·√2/(2√2·√2) = h√(2h)/4', en: '√(h³)/√8 = h√h/(2√2) = h√(2h)/4 after rationalizing' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 22 (مثل السؤال 43):</strong> بسّط <span class="math-display">7/(5+√3)</span> بإنطاق المقام', en: '<strong>Question 22 (like Q43):</strong> Simplify <span class="math-display">7/(5+√3)</span> by rationalizing' },
+                    options: [
+                        { ar: '<span class="math-display">(35 - 7√3)/22</span>', en: '<span class="math-display">(35 - 7√3)/22</span>' },
+                        { ar: '<span class="math-display">7(5-√3)/22</span>', en: '<span class="math-display">7(5-√3)/22</span>' },
+                        { ar: '<span class="math-display">(35 + 7√3)/22</span>', en: '<span class="math-display">(35 + 7√3)/22</span>' },
+                        { ar: '<span class="math-display">7/(5-√3)</span>', en: '<span class="math-display">7/(5-√3)</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '7/(5+√3) × (5-√3)/(5-√3) = 7(5-√3)/(25-3) = (35-7√3)/22', en: '7/(5+√3) × (5-√3)/(5-√3) = (35-7√3)/22' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 23 (مثل السؤال 48):</strong> بسّط <span class="math-display">2√5/(2√7 + 3√3)</span> بإنطاق المقام', en: '<strong>Question 23 (like Q48):</strong> Simplify <span class="math-display">2√5/(2√7 + 3√3)</span> by rationalizing' },
+                    options: [
+                        { ar: '<span class="math-display">(4√35 - 6√15)/1</span>... تصحيح: <span class="math-display">(4√35 - 6√15)/(28-27) = 4√35 - 6√15</span>', en: '<span class="math-display">4√35 - 6√15</span>' },
+                        { ar: '<span class="math-display">(4√35 + 6√15)</span>', en: '<span class="math-display">(4√35 + 6√15)</span>' },
+                        { ar: '<span class="math-display">2√5/(2√7 - 3√3)</span>', en: '<span class="math-display">2√5/(2√7 - 3√3)</span>' },
+                        { ar: '<span class="math-display">(4√35 - 6√15)/22</span>', en: '<span class="math-display">(4√35 - 6√15)/22</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'اضرب بـ (2√7 - 3√3)/(2√7 - 3√3). المقام: (2√7)² - (3√3)² = 28 - 27 = 1. البسط: 2√5(2√7 - 3√3) = 4√35 - 6√15', en: 'Multiply by conjugate (2√7 - 3√3). Denominator: 28-27=1. Numerator: 4√35 - 6√15' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 24 (مثل السؤال 42):</strong> بسّط <span class="math-display">√(7/2) · √(5/3)</span>', en: '<strong>Question 24 (like Q42):</strong> Simplify <span class="math-display">√(7/2) · √(5/3)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">√210/6</span>', en: '<span class="math-display">√210/6</span>' },
+                        { ar: '<span class="math-display">√35/6</span>', en: '<span class="math-display">√35/6</span>' },
+                        { ar: '<span class="math-display">√(35/6)</span>', en: '<span class="math-display">√(35/6)</span>' },
+                        { ar: '<span class="math-display">35/6</span>', en: '<span class="math-display">35/6</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√(7/2)·√(5/3) = √(35/6) = √35/√6 = √35·√6/6 = √210/6', en: '√(7/2)·√(5/3) = √(35/6) = √210/6 after rationalizing' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 25 (مثل السؤال 38):</strong> بسّط <span class="math-display">√(27/m⁵)</span>', en: '<strong>Question 25 (like Q38):</strong> Simplify <span class="math-display">√(27/m⁵)</span>' },
+                    options: [
+                        { ar: '<span class="math-display">3√(3m)/(m³)</span>... تصحيح: <span class="math-display">3√3/(m²√m) = 3√(3m)/m³</span>', en: '<span class="math-display">3√(3m)/m³</span>' },
+                        { ar: '<span class="math-display">3√3/m²</span>', en: '<span class="math-display">3√3/m²</span>' },
+                        { ar: '<span class="math-display">√27/m⁵</span>', en: '<span class="math-display">√27/m⁵</span>' },
+                        { ar: '<span class="math-display">3/m²</span>', en: '<span class="math-display">3/m²</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√(27/m⁵) = √27/√(m⁵) = 3√3/(m²√m) = 3√3·√m/(m²·m) = 3√(3m)/m³', en: '√(27/m⁵) = 3√3/(m²√m) = 3√(3m)/m³ after rationalizing' }
+                }
+            ]
+        },
+        {
+            id: 'sec6',
+            title: { ar: '🔹 القسم 6: مسائل مركبة (Q26-Q30)', en: '🔹 Section 6: Mixed Problems (Q26-Q30)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 26:</strong> أي من التعابير التالية مبسّط تماماً؟', en: '<strong>Question 26:</strong> Which expression is fully simplified?' },
+                    svg: svgGraphs.radical_rules_summary,
+                    options: [
+                        { ar: '<span class="math-display">3√6</span>', en: '<span class="math-display">3√6</span>' },
+                        { ar: '<span class="math-display">√12</span>', en: '<span class="math-display">√12</span>' },
+                        { ar: '<span class="math-display">2√8</span>', en: '<span class="math-display">2√8</span>' },
+                        { ar: '<span class="math-display">√50</span>', en: '<span class="math-display">√50</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '3√6 مبسّط لأن 6 = 2×3 لا يحتوي على مربعات كاملة. الباقي: √12 = 2√3، 2√8 = 4√2، √50 = 5√2', en: '3√6 is fully simplified because 6 = 2×3 has no perfect square factors. Others: √12=2√3, 2√8=4√2, √50=5√2' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 27:</strong> ما تبسيط <span class="math-display">√200</span>؟', en: '<strong>Question 27:</strong> What is the simplification of <span class="math-display">√200</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">10√2</span>', en: '<span class="math-display">10√2</span>' },
+                        { ar: '<span class="math-display">2√100</span>', en: '<span class="math-display">2√100</span>' },
+                        { ar: '<span class="math-display">100√2</span>', en: '<span class="math-display">100√2</span>' },
+                        { ar: '<span class="math-display">√200</span> (لا يمكن تبسيطه)', en: '<span class="math-display">√200</span> (cannot simplify)' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '200 = 100 × 2، و 100 مربع كامل. √200 = √100·√2 = 10√2', en: '200 = 100 × 2, 100 is perfect square. √200 = 10√2' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 28:</strong> ما تبسيط <span class="math-display">√(48x³)</span>؟', en: '<strong>Question 28:</strong> What is the simplification of <span class="math-display">√(48x³)</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">4|x|√(3x)</span>', en: '<span class="math-display">4|x|√(3x)</span>' },
+                        { ar: '<span class="math-display">4x√(3x)</span>', en: '<span class="math-display">4x√(3x)</span>' },
+                        { ar: '<span class="math-display">2x√(12x)</span>', en: '<span class="math-display">2x√(12x)</span>' },
+                        { ar: '<span class="math-display">√(48x³)</span> (لا يمكن تبسيطه)', en: '<span class="math-display">√(48x³)</span> (cannot simplify)' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√(48x³) = √(16·3·x²·x) = 4|x|√(3x). نستخدم |x| لأن x قد يكون سالباً', en: '√(48x³) = √(16·3·x²·x) = 4|x|√(3x). Use |x| because x could be negative' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 29:</strong> ما نتيجة <span class="math-display">√5 · √20</span>؟', en: '<strong>Question 29:</strong> What is the result of <span class="math-display">√5 · √20</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">10</span>', en: '<span class="math-display">10</span>' },
+                        { ar: '<span class="math-display">√100</span>', en: '<span class="math-display">√100</span>' },
+                        { ar: '<span class="math-display">5√4</span>', en: '<span class="math-display">5√4</span>' },
+                        { ar: '<span class="math-display">2√25</span>', en: '<span class="math-display">2√25</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '√5 · √20 = √(5·20) = √100 = 10', en: '√5 · √20 = √100 = 10' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 30:</strong> أي عبارة صحيحة عن تبسيط الجذور؟', en: '<strong>Question 30:</strong> Which statement about simplifying radicals is true?' },
+                    options: [
+                        { ar: 'نخرج أكبر مربع كامل ممكن من تحت الجذر', en: 'We factor out the largest possible perfect square' },
+                        { ar: 'نقسم ما تحت الجذر على 2', en: 'We divide the radicand by 2' },
+                        { ar: 'نأخذ الجذر التربيعي للمعامل فقط', en: 'We take square root of coefficient only' },
+                        { ar: 'لا يمكن تبسيط الجذور أبداً', en: 'Radicals can never be simplified' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'القاعدة الصحيحة: نبحث عن أكبر مربع كامل يقسم ما تحت الجذر، ثم نخرجه', en: 'Correct rule: Find the largest perfect square factor of the radicand, then factor it out' }
+                }
+            ]
+        }
+    ]
+};
+
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(rng() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function prepareShuffledExam() {
+    rng = mulberry32(currentSeed);
+    examData = JSON.parse(JSON.stringify(originalExamData));
+    correctAnswersMap = {};
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        section.questions = shuffleArray(section.questions);
+        section.questions.forEach((q) => {
+            const optionsWithCorrect = q.options.map((opt, idx) => ({ option: opt, isCorrect: idx === q.correct }));
+            const shuffledOptions = shuffleArray(optionsWithCorrect);
+            q.options = shuffledOptions.map(o => o.option);
+            q.correct = shuffledOptions.findIndex(o => o.isCorrect);
+            correctAnswersMap[globalIdx] = String.fromCharCode(97 + q.correct);
+            globalIdx++;
+        });
+    });
+}
+
+function reshuffleExam() {
+    const msg = currentLang === 'ar' ? '🔄 سيتم إنشاء أسئلة جديدة ومسح إجاباتك. هل أنت متأكد؟' : '🔄 New questions will be generated. Are you sure?';
+    if (confirm(msg)) {
+        currentSeed = Date.now(); timeRemaining = TOTAL_TIME; answersVisible = false;
+        prepareShuffledExam(); renderExam(); saveState();
+        alert(currentLang === 'ar' ? '🎲 تم تغيير الأسئلة! حظاً موفقاً! 🍀' : '🎲 Questions changed! Good luck! 🍀');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.body.classList.toggle('en-mode', lang === 'en');
+    
+    document.querySelectorAll('[data-ar]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
+    });
+    
+    document.querySelectorAll('[data-placeholder-ar]').forEach(el => {
+        el.placeholder = el.getAttribute('data-placeholder-' + lang);
+    });
+    
+    renderExam(); saveState(false);
+}
+
+function renderExam() {
+    const container = document.getElementById('exam-content');
+    const labels = { ar: { option: ['a)', 'b)', 'c)', 'd)'], answer: '✅ الإجابة:' }, en: { option: ['a)', 'b)', 'c)', 'd)'], answer: '✅ Answer:' } };
+    const lbl = labels[currentLang];
+    let html = '';
+    let globalIdx = 0;
+    
+    examData.sections.forEach((section, secIdx) => {
+        const badgeClass = ['module-1', 'module-2', 'module-3', 'module-4', 'module-5', 'module-6'][secIdx];
+        html += '<section class="bg-white p-6 rounded-2xl shadow-lg border-2 border-green-100">';
+        html += '<div class="text-center mb-4"><span class="module-badge ' + badgeClass + '">' + section.title[currentLang] + '</span></div>';
+        html += '<ol class="space-y-4 text-sm">';
+        
+        section.questions.forEach((q) => {
+            html += '<li class="border-r-4 border-green-400 pr-4 py-2" id="q-' + globalIdx + '" style="border-right: 4px solid #10b981; padding-right: 1rem;">';
+            html += '<strong class="text-green-700">' + (globalIdx + 1) + '.</strong> ' + q.q[currentLang] + '<br>';
+            if (q.svg) html += '<div class="graph-container">' + q.svg + '</div>';
+            
+            q.options.forEach((opt, oIdx) => {
+                html += '<label class="cursor-pointer block mt-2 mr-4 hover:bg-green-50 rounded-lg p-2 transition" style="margin-right: 1rem;">';
+                html += '<input type="radio" name="q' + globalIdx + '" value="' + String.fromCharCode(97 + oIdx) + '" class="mr-2 ml-2">';
+                html += '<span class="arabic-math">' + lbl.option[oIdx] + ' ' + opt[currentLang] + '</span>';
+                html += '</label>';
+            });
+            
+            html += '<div class="answer-box text-green-700 mt-3 font-medium ' + (answersVisible ? '' : 'hidden') + ' bg-green-50 rounded-lg p-3 border border-green-200">';
+            html += lbl.answer + ' ' + lbl.option[q.correct] + ' <span class="arabic-math">' + q.options[q.correct][currentLang] + '</span><br>';
+            html += '<span class="text-sm text-green-700 mt-2 block arabic-math">' + q.answer[currentLang] + '</span>';
+            html += '</div></li>';
+            globalIdx++;
+        });
+        
+        html += '</ol></section>';
+    });
+    
+    container.innerHTML = html;
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        if (timeRemaining % 60 === 0) saveState(false);
+        if (timeRemaining <= 600) document.getElementById('timer').classList.add('timer-warning');
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert(currentLang === 'ar' ? "⏰ انتهى الوقت!" : "⏰ Time's up!");
+            gradeExam();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(timeRemaining / 60);
+    const s = timeRemaining % 60;
+    document.getElementById('timer').textContent = m.toString().padStart(2,'0') + ':' + s.toString().padStart(2,'0');
+}
+
+function toggleAnswers() {
+    answersVisible = !answersVisible;
+    document.querySelectorAll('.answer-box').forEach(el => el.classList.toggle('hidden', !answersVisible));
+    saveState(false);
+}
+
+function gradeExam() {
+    let correctCount = 0;
+    const sectionScores = new Array(TOTAL_SECTIONS).fill(0);
+    
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const sel = document.querySelector('input[name="q'+i+'"]:checked');
+        const li = document.getElementById('q-' + i);
+        if (li) {
+            const isCorrect = sel && sel.value === correctAnswersMap[i];
+            if (isCorrect) {
+                correctCount++;
+                li.classList.add('correct');
+                li.classList.remove('incorrect');
+                sectionScores[Math.floor(i / QUESTIONS_PER_SECTION)]++;
+            } else {
+                li.classList.add('incorrect');
+                li.classList.remove('correct');
+            }
+        }
+    }
+    
+    const score = Math.round((correctCount / TOTAL_QUESTIONS) * 100);
+    document.getElementById('res-total').textContent = score + ' / 100';
+    document.getElementById('res-name').textContent = document.getElementById('studentName').value || (currentLang === 'ar' ? 'بطل' : 'Champion');
+    document.getElementById('res-date').textContent = new Date().toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-US');
+    
+    const pc = document.getElementById('sections-performance');
+    pc.innerHTML = '';
+    examData.sections.forEach((s, idx) => {
+        pc.innerHTML += '<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-gray-700">' + s.title[currentLang] + '</span><span class="font-bold text-green-700">' + sectionScores[idx] + '/' + QUESTIONS_PER_SECTION + '</span></div>';
+    });
+    
+    const badge = document.getElementById('success-badge');
+    document.getElementById('success-percent').textContent = score + '%';
+    
+    if (currentLang === 'ar') {
+        if (score >= 90) { badge.textContent = '🌟 ممتاز جداً!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 ممتاز!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 جيد'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 حاول مرة أخرى'; badge.className = 'success-badge grade-fail'; }
+    } else {
+        if (score >= 90) { badge.textContent = '🌟 Outstanding!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 Excellent!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 Good'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 Try Again'; badge.className = 'success-badge grade-fail'; }
+    }
+    
+    document.getElementById('results-panel').classList.remove('hidden');
+    document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    if (timerInterval) clearInterval(timerInterval);
+}
+
+function sendResultsToEmail() {
+    const btn = document.getElementById('sendEmailBtn');
+    const status = document.getElementById('emailStatus');
+    btn.disabled = true;
+    btn.textContent = currentLang === 'ar' ? '⏳ جاري الإرسال...' : '⏳ Sending...';
+    
+    const name = document.getElementById('studentName').value || 'N/A';
+    const studentClass = document.getElementById('studentClass').value || 'N/A';
+    const date = document.getElementById('examDate').value || new Date().toLocaleDateString();
+    const score = document.getElementById('res-total').textContent;
+    const successRate = document.getElementById('success-percent').textContent;
+    const badge = document.getElementById('success-badge').textContent;
+    
+    let questionsHTML = '<div style="font-family:Arial; direction:rtl;">';
+    questionsHTML += '<h2>📐 ' + (currentLang === 'ar' ? 'نتيجة امتحان تبسيط التعابير الجذرية' : 'Simplifying Radicals Exam Result') + '</h2>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'الاسم' : 'Name') + ':</strong> ' + name + '</p>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'الشعبة' : 'Class') + ':</strong> ' + studentClass + '</p>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'التاريخ' : 'Date') + ':</strong> ' + date + '</p>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'الدرجة' : 'Score') + ':</strong> ' + score + ' (' + successRate + '%)</p>';
+    questionsHTML += '<p><strong>' + (currentLang === 'ar' ? 'التقدير' : 'Grade') + ':</strong> ' + badge + '</p>';
+    questionsHTML += '<hr><h3>' + (currentLang === 'ar' ? 'تفاصيل الإجابات:' : 'Answer Details:') + '</h3><table style="width:100%; border-collapse:collapse;">';
+    questionsHTML += '<tr style="background:#10b981; color:white;"><th style="padding:8px; border:1px solid #ddd;">#</th><th style="padding:8px; border:1px solid #ddd;">' + (currentLang === 'ar' ? 'السؤال' : 'Question') + '</th><th style="padding:8px; border:1px solid #ddd;">' + (currentLang === 'ar' ? 'إجابة الطالب' : 'Student Answer') + '</th><th style="padding:8px; border:1px solid #ddd;">' + (currentLang === 'ar' ? 'الصحيحة' : 'Correct') + '</th><th style="padding:8px; border:1px solid #ddd;">' + (currentLang === 'ar' ? 'النتيجة' : 'Result') + '</th></tr>';
+    
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        questionsHTML += '<tr style="background:#ecfdf5;"><td colspan="5" style="padding:8px; font-weight:bold; border:1px solid #ddd;">' + section.title.ar + '</td></tr>';
+        section.questions.forEach((q) => {
+            const sel = document.querySelector('input[name="q'+globalIdx+'"]:checked');
+            const sv = sel ? sel.value : null;
+            const cv = correctAnswersMap[globalIdx];
+            const ic = sv === cv;
+            let sat = currentLang === 'ar' ? '❌ لم يجب' : '❌ No answer';
+            let sac = '#dc2626';
+            if (sv) {
+                const si = sv.charCodeAt(0) - 97;
+                sat = q.options[si][currentLang];
+                sac = ic ? '#16a34a' : '#dc2626';
+            }
+            const cat = q.options[q.correct][currentLang];
+            const rb = ic ? '#f0fdf4' : '#fef2f2';
+            questionsHTML += '<tr style="background:' + rb + ';"><td style="padding:8px; border:1px solid #ddd; text-align:center;">' + (globalIdx+1) + '</td><td style="padding:8px; border:1px solid #ddd;">' + q.q.ar.replace(/<[^>]+>/g, '').substring(0, 80) + '...</td><td style="padding:8px; border:1px solid #ddd; color:' + sac + ';">' + sat + '</td><td style="padding:8px; border:1px solid #ddd; color:#16a34a;">' + cat + '</td><td style="padding:8px; border:1px solid #ddd; text-align:center;">' + (ic?'✅':'❌') + '</td></tr>';
+            globalIdx++;
+        });
+    });
+    questionsHTML += '</table></div>';
+    
+    const templateParams = {
+        to_email: TARGET_EMAIL,
+        student_name: name,
+        student_class: studentClass,
+        exam_date: date,
+        total_score: score,
+        success_rate: successRate,
+        grade: badge,
+        answers_table: questionsHTML
+    };
+    
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+        .then(() => {
+            status.textContent = currentLang === 'ar' ? '✅ تم الإرسال بنجاح!' : '✅ Sent successfully!';
+            status.style.color = '#16a34a';
+            btn.textContent = currentLang === 'ar' ? '✓ تم' : '✓ Sent';
+            alert(currentLang === 'ar' ? 'تم إرسال النتيجة للمعلم بنجاح!' : 'Result sent to teacher successfully!');
+        })
+        .catch((error) => {
+            status.textContent = currentLang === 'ar' ? '❌ فشل الإرسال' : '❌ Failed to send';
+            status.style.color = '#dc2626';
+            btn.disabled = false;
+            btn.textContent = currentLang === 'ar' ? '📧 حاول مرة أخرى' : '📧 Try Again';
+            alert(currentLang === 'ar' ? 'فشل الإرسال: ' + error.text : 'Failed: ' + error.text);
+        });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = loadState();
+    if (saved && saved.seed) {
+        currentSeed = saved.seed;
+        currentLang = saved.lang || 'ar';
+        timeRemaining = saved.timeRemaining !== undefined ? saved.timeRemaining : TOTAL_TIME;
+        answersVisible = saved.answersVisible || false;
+    } else {
+        currentSeed = Date.now();
+    }
+    
+    document.getElementById('btn-ar').classList.toggle('active', currentLang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+    document.body.classList.toggle('en-mode', currentLang === 'en');
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    
+    document.querySelectorAll('[data-ar]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + currentLang);
+    });
+    
+    document.querySelectorAll('[data-placeholder-ar]').forEach(el => {
+        el.placeholder = el.getAttribute('data-placeholder-' + currentLang);
+    });
+    
+    prepareShuffledExam();
+    renderExam();
+    if (saved) {
+        if (saved.studentName) document.getElementById('studentName').value = saved.studentName;
+        if (saved.studentClass) document.getElementById('studentClass').value = saved.studentClass;
+        if (saved.examDate) document.getElementById('examDate').value = saved.examDate;
+        if (saved.answers) restoreAnswers(saved.answers);
+    }
+    setupAnswerListeners();
+    setupInputListeners();
+    startTimer();
+});
+window.addEventListener('beforeunload', () => saveState(false));
+</script>
+</body>
+</html>
